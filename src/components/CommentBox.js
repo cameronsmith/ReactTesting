@@ -1,25 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from 'actions';
+import requireAuth from 'components/requireAuth';
 
 class CommentBox extends Component {
     state = {
         comment: ''
     };
-
-    componentDidMount() {
-        this.shouldNavigateAway();
-    }
-
-    componentDidUpdate() {
-        this.shouldNavigateAway();
-    }
-
-    shouldNavigateAway() {
-        if (!this.props.auth) {
-            this.props.history.push('/');
-        }
-    }
 
     handleChange = (event) => {
         this.setState({ comment: event.target.value });
@@ -48,8 +35,5 @@ class CommentBox extends Component {
     }
 }
 
-const maptStateToProps = (state) => {
-    return { auth: state.auth };
-}
-
-export default connect(maptStateToProps, actions)(CommentBox);
+// Passing down the history prop (from link component) + redux props eg: actions.
+export default connect(null, actions)(requireAuth(CommentBox));
